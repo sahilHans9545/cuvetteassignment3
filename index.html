@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Spill</title>
+    <style>
+        body {
+            background: #D6BCFF;
+        }
+
+        #container {
+            margin: 100px auto;
+            text-align: center;
+            width: fit-content;
+            background: #FFF;
+            padding: 10px;
+            border-radius: 21px;
+        }
+
+        .tip-buttons {
+            width: 100px;
+        }
+
+        #bill-input,
+        #people-input,
+        #reset {
+            width: 300px;
+        }
+
+        #outer-div {
+            display: flex;
+        }
+
+        #left-section,
+        #right-section {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        #right-section {
+            background: #9C60FF;
+            border-radius: 11px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        #right-part-1,
+        #right-part-2 {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Bill Spill</h1>
+        <div id="outer-div">
+            <div id="left-section">
+                <label>Bill</label><br>
+                <input type="text" placeholder="₹ 0" id="bill-input" oninput="calculateBill()"><br>
+                <label>Select Tip %</label><br>
+                <button class="tip-buttons" onclick="calculateBill(5)">5%</button>
+                <button class="tip-buttons" onclick="calculateBill(10)">10%</button>
+                <button class="tip-buttons" onclick="calculateBill(15)">15%</button><br>
+                <button class="tip-buttons" onclick="calculateBill(25)">25%</button>
+                <button class="tip-buttons" onclick="calculateBill(50)">50%</button>
+                <button class="tip-buttons" onclick="calculateBill(75)">75%</button><br>
+                <label>Number of people</label><br>
+                <input type="number" value="1" id="people-input" oninput="calculateBill()">
+            </div>
+            <div id="right-section">
+                <div id="right-part-1">
+                    <div>Tip Amount / person</div>
+                    <div id="tip-per-person">₹ 0.00</div>
+                </div>
+                <div id="right-part-2">
+                    <div>Total / person</div>
+                    <div id="total-per-person">₹ 0.00</div>
+                </div>
+                <button id="reset" onclick="reset()">Reset</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let globalTipPercent = 0
+
+        const calculateBill = (tipPercent = 0) => {
+            let billAmount = Number(document.getElementById('bill-input').value)
+            let numberOfPeople = Number(document.getElementById('people-input').value)
+            if (tipPercent != 0)
+                globalTipPercent = tipPercent
+            let tipAmount = (globalTipPercent / 100) * billAmount
+            billAmount += tipAmount
+
+            let tipAmountPerPerson = tipAmount / numberOfPeople
+            let totalPerPerson = billAmount / numberOfPeople
+            document.getElementById('tip-per-person').innerText = `₹ ${tipAmountPerPerson.toFixed(2)}`
+            document.getElementById('total-per-person').innerText = `₹ ${totalPerPerson.toFixed(2)}`
+        }
+
+        const reset = () => {
+            document.getElementById('bill-input').value = ''
+            document.getElementById('people-input').value = '1'
+            document.getElementById('tip-per-person').innerText = `₹ 0.00`
+            document.getElementById('total-per-person').innerText = `₹ 0.00`
+            globalTipPercent = 0
+        }
+
+
+
+    </script>
+</body>
+
+</html>
